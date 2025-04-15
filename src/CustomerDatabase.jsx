@@ -40,6 +40,18 @@ const CustomerDatabase = () => {
     }
   };
 
+const testSupabaseConnection = async () => {
+  const { data, error } = await supabase.from('customers').select('*').limit(1);
+
+  if (error) {
+    console.error('❌ Supabase connection error:', error.message);
+    alert('Supabase connection failed. Check the console for details.');
+  } else {
+    console.log('✅ Supabase is working! Sample data:', data);
+    alert('Supabase connection successful!');
+  }
+};
+
   return (
     <div>
       <h1>Classic Car Customer Matcher</h1>
@@ -51,6 +63,10 @@ const CustomerDatabase = () => {
         <input name="make" placeholder="Make" value={form.make} onChange={handleChange} />
         <input name="model" placeholder="Model" value={form.model} onChange={handleChange} />
         <button onClick={handleAddCustomer}>Add Customer</button>
+        <button onClick={checkMatches} style={{ marginLeft: '1rem' }}>Check for Matches</button>
+        <button onClick={testSupabaseConnection} style={{ marginTop: '1rem' }}>
+            Test Supabase Connection
+          </button>
       </div>
       <ul>
         {customers.map((c) => (
